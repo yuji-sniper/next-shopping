@@ -5,7 +5,7 @@ services:
     container_name: next
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./client/.docker/node/Dockerfile
     volumes:
       - ./client:/user/src/app
     working_dir: /user/src/app
@@ -14,3 +14,34 @@ services:
       - 3000:3000
     tty: true
     stdin_open: true
+  strapi:
+    container_name: strapi
+    image: strapi/strapi
+    environment:
+      DATABASE_CLIENT: mysql
+      DATABASE_HOST: mysql
+      DATABASE_PORT: 3306
+      DATABASE_NAME: strapi
+      DATABASE_USERNAME: strapi
+      DATABASE_PASSWORD: strapi
+    ports:
+      - 1337:1337
+    volumes:
+      - ./server/.docker/strapi:/srv/app
+    depends_on:
+      - mysql
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    restart: always
+    platform: linux/amd64
+    environment:
+      MYSQL_DATABASE: strapi
+      MYSQL_USER: strapi
+      MYSQL_PASSWORD: strapi
+      MYSQL_ROOT_PASSWORD: strapi
+    volumes:
+      - ./server/.docker/mysql/data:/var/lib/mysql
+      - ./server/.docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - 3306:3306
