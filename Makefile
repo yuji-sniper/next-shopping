@@ -11,6 +11,8 @@ down:
 # コンテナ操作
 next:
 	docker exec -it next bash
+strapi:
+	docker exec -it strapi bash
 
 # yarn
 yarn-ci:
