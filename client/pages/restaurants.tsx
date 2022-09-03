@@ -1,5 +1,4 @@
 import { gql, useQuery } from "@apollo/client";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button, Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap";
 
