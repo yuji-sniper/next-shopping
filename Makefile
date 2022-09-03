@@ -18,8 +18,11 @@ strapi:
 yarn-ci:
 	docker compose run --rm next yarn install --immutable --immutable-cache --check-cache
 
-# 初期化
+# 環境構築
 init:
+	@make copy-env
 	@make build
 	@make yarn-ci
 	@make up
+copy-env:
+	cp ./client/.env.example ./client/.env
