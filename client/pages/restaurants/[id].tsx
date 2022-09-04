@@ -1,6 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import React from "react";
 import { Button, Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap";
+import Cart from "../../components/Cart";
 
 interface Dish {
     id: number
@@ -38,7 +40,7 @@ const GET_RESTAURANT_DISHES = gql`
     }
 `
 
-const Restaurants = () => {
+const RestaurantsShow = () => {
     const router = useRouter();
 
     const { loading, error, data } = useQuery<QueryData>(GET_RESTAURANT_DISHES, {
@@ -68,9 +70,14 @@ const Restaurants = () => {
                         </Card>
                     </Col>
                 ))}
+                <Col xs="3" style={{ padding: 0 }}>
+                    <div>
+                        <Cart/>
+                    </div>
+                </Col>
             </Row>
         </>
     );
 }
 
-export default Restaurants;
+export default RestaurantsShow;
