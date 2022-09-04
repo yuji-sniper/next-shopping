@@ -1,5 +1,7 @@
+import Cookies from "js-cookie";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import { Container, Nav, NavItem } from "reactstrap";
 import AppContext from "../context/AppContext";
@@ -9,7 +11,14 @@ interface Props {
 }
 
 const Layout = (props: Props) => {
+    const router = useRouter()
     const {user, setUser} = useContext(AppContext)
+
+    const handleLogout = () => {
+        Cookies.remove('token')
+        setUser!(null)
+        router.push('/login')
+    }
 
     return (
         <div>
@@ -25,9 +34,12 @@ const Layout = (props: Props) => {
                     </NavItem>
                     <NavItem className="ml-auto">
                         {user ? (
-                            <Link href="/login">
-                                <a className="navbar-brand">ログアウト</a>
-                            </Link>
+                            <div className="navbar-brand"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleLogout()}
+                            >
+                                ログアウト
+                            </div>
                         ) : (
                             <Link href="/login">
                                 <a className="navbar-brand">ログイン</a>

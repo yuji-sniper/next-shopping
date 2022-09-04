@@ -15,8 +15,10 @@ const Register = () => {
 
     const handleRegister = async () => {
         const response = await registerUser(formData)
-        appContext.setUser!(response?.data.user)
-        router.push('/')
+        if (response) {
+            appContext.setUser!(response.data.user)
+            router.push('/')
+        }
     }
 
     return (
@@ -64,11 +66,6 @@ const Register = () => {
                                         onChange={(e) => setFormData({...formData, password: e.target.value})}
                                     />
                                 </FormGroup>
-                                <span>
-                                    <a href="">
-                                        <small>パスワードをお忘れですか？</small>
-                                    </a>
-                                </span>
                                 <Button
                                     style={{ float: "right", width: 120 }}
                                     color="primary"
