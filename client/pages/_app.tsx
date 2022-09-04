@@ -3,6 +3,9 @@ import type { AppProps } from 'next/app'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Layout from '../components/Layout'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import AppContext from '../context/AppContext'
+import { useState } from 'react'
+import { User } from '../types/user'
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -10,12 +13,16 @@ const client = new ApolloClient({
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [user, setUser] = useState<User>()
+
   return (
-    <ApolloProvider client={client}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ApolloProvider>
+    <AppContext.Provider value={{ user, setUser }}>
+      <ApolloProvider client={client}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ApolloProvider>
+    </AppContext.Provider>
   )
 }
 

@@ -1,12 +1,16 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useContext } from "react";
 import { Container, Nav, NavItem } from "reactstrap";
+import AppContext from "../context/AppContext";
 
 interface Props {
     children?: JSX.Element
 }
 
 const Layout = (props: Props) => {
+    const {user, setUser} = useContext(AppContext)
+
     return (
         <div>
             <Head>
@@ -20,14 +24,24 @@ const Layout = (props: Props) => {
                         </Link>
                     </NavItem>
                     <NavItem className="ml-auto">
-                        <Link href="/login">
-                            <a className="navbar-brand">サインイン</a>
-                        </Link>
+                        {user ? (
+                            <Link href="/login">
+                                <a className="navbar-brand">ログアウト</a>
+                            </Link>
+                        ) : (
+                            <Link href="/login">
+                                <a className="navbar-brand">ログイン</a>
+                            </Link>
+                        )}
                     </NavItem>
                     <NavItem>
-                        <Link href="/register">
-                            <a className="navbar-brand">サインアップ</a>
-                        </Link>
+                        {user ? (
+                            <h5>{user.username}</h5>
+                        ) : (
+                            <Link href="/register">
+                                <a className="navbar-brand">新規登録</a>
+                            </Link>
+                        )}
                     </NavItem>
                 </Nav>
             </header>
